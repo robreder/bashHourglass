@@ -12,31 +12,31 @@
 
 case $1 in
    start)
-    $0 privatestart & 2>/dev/null
+    $0 privatestart & 2> /dev/null
     ;;
    stop)
-    $0 privatestop  & 2>/dev/null
+    $0 privatestop > /dev/null 2>&1
     ;;
    privatestart)
     CURSOR_MOVE="\033[1D"
     #"\r"
-    #seq 1 100 | while read num2; do 
+    #seq 1 100 | while read num2; do
     num="0"
 
-    while [ true ] 
+    while [ true ]
     do
       num=$[$num+1]
 
-      
+
       if (( num % 4 == 0 )); then
         echo -ne $CURSOR_MOVE
         printf "|";
-      else 
-        if (( num % 4 == 1 )); then 
+      else
+        if (( num % 4 == 1 )); then
           echo -ne $CURSOR_MOVE
           printf "/";
-        else 
-          if (( num % 4 == 2 )); then  
+        else
+          if (( num % 4 == 2 )); then
             echo -ne $CURSOR_MOVE
             printf "-";
           else
@@ -49,17 +49,21 @@ case $1 in
       num=$(($num % 400));
     done;
     echo -ne $CURSOR_MOVE
-    
-    
+
+
     ;;
    privatestop)
     scriptName=$(basename "$0")
-    for x in `pgrep -f $scriptName`; 
-    do 
-        kill $x > /dev/null 2>&1 &
+    for x in `pgrep -f "$scriptName privatestart"`;
+    do
+        kill $x > /dev/null 2>&1
     done;
     ;;
    *)
+    echo "::::::::::::::::: Help :::::::::::::::::::::::"
+    echo Call script with argument \"start\" or \"stop\"
+    echo Best usage first call it with argument \"start\"
+    echo and afterwards with argument \"stop\"
     ;;
 esac
 
