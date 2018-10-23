@@ -16,3 +16,7 @@ Within your script you have to place
 > hourglass.sh stop
 
 Consider the same strategie with the path as on starting the hourglass.
+## Help
+Showing the help by calling the script without any arguments.
+    hourglass.sh
+     
